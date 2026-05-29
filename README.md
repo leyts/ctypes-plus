@@ -8,6 +8,12 @@ A dataclass-like interface for ctypes data types.
 > [!WARNING]
 > This package is under development. The API is subject to breaking changes.
 
+## Installation
+
+```shell
+pip install ctypes-plus
+```
+
 ## Usage
 
 Decorate an annotated class with `@structure` or `@union`. Each annotation
