@@ -46,11 +46,11 @@ def test_structure_produces_structure_subclass() -> None:
 
 
 def test_native_construction_needs_no_ignore() -> None:
-    by_kwargs = LogEvent(event_id=1, timestamp=99, message=b"hi")
-    by_pos = LogEvent(1, 99, b"hi")
+    by_kwargs = LogEvent(event_id=1, timestamp=99, message=b"foo")
+    by_pos = LogEvent(1, 99, b"foo")
     assert by_kwargs.event_id == by_pos.event_id == 1
     assert by_kwargs.timestamp == 99
-    assert by_kwargs.message == b"hi"
+    assert by_kwargs.message == b"foo"
 
 
 def test_union_overlaps_storage() -> None:
@@ -61,11 +61,11 @@ def test_union_overlaps_storage() -> None:
 
 
 def test_asdict_returns_native_values() -> None:
-    event = LogEvent(event_id=2, timestamp=1234, message=b"boom")
+    event = LogEvent(event_id=2, timestamp=1234, message=b"foo")
     assert asdict(event) == {
         "event_id": 2,
         "timestamp": 1234,
-        "message": b"boom",
+        "message": b"foo",
     }
 
 
@@ -82,9 +82,9 @@ def test_fields_reports_ctypes_types() -> None:
 
 
 def test_repr() -> None:
-    event = LogEvent(event_id=2, timestamp=1234, message=b"boom")
+    event = LogEvent(event_id=2, timestamp=1234, message=b"foo")
     assert (
-        repr(event) == "LogEvent(event_id=2, timestamp=1234, message=b'boom')"
+        repr(event) == "LogEvent(event_id=2, timestamp=1234, message=b'foo')"
     )
 
 

@@ -4,12 +4,11 @@ from ctypes import Structure, Union
 from typing import NamedTuple, TypeIs
 
 # Imported at runtime so `Field`'s annotation stays resolvable for callers
-# of `get_type_hints(Field)`.
 from ctypes_plus._build import _CData, _field_items
 
 
 class Field(NamedTuple):
-    """A single ctypes field: its ``name`` and ctypes ``type``."""
+    """A single ctypes field."""
 
     name: str
     type: type[_CData]
