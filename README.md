@@ -1,5 +1,8 @@
 # ctypes-plus
 
+![PyPI - Version](https://img.shields.io/pypi/v/ctypes-plus)
+![PyPI - License](https://img.shields.io/pypi/l/ctypes-plus)
+
 A dataclass-like interface for ctypes data types.
 
 > [!WARNING]
