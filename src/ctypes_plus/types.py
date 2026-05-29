@@ -32,8 +32,8 @@ type UInt64 = Annotated[int, c_uint64]
 type Float = Annotated[float, c_float]
 type Double = Annotated[float, c_double]
 type Bool = Annotated[bool, c_bool]
-type CharP = Annotated[bytes, c_char_p]
-type WCharP = Annotated[str, c_wchar_p]
+type CharP = Annotated[bytes | None, c_char_p]
+type WCharP = Annotated[str | None, c_wchar_p]
 
 __all__ = [
     "Bool",
