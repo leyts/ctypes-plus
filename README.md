@@ -39,7 +39,7 @@ event = LogEvent(event_id=2, timestamp=1234, message=b"foo")
 print(event)  # LogEvent(event_id=2, timestamp=1234, message=b'foo')
 ```
 
-### Typed field aliases
+### Typed fields
 
 `ctypes_plus.types` provides `Annotated` types that map a native Python type
 to its ctypes type, so construction and attribute access type-check cleanly.
@@ -53,7 +53,7 @@ Plain ctypes types (`a: c_int`), your own `Annotated[..., ctype]` aliases and
 >>> from ctypes_plus import asdict, fields
 >>> fields(LogEvent)
 (Field(name='event_id', type=<class 'ctypes.c_int'>), ...)
->>> asdict(LogEvent(event_id=2, timestamp=1234, message=b"foo"))
+>>> asdict(event)
 {'event_id': 2, 'timestamp': 1234, 'message': b'foo'}
 ```
 
