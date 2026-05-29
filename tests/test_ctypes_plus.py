@@ -14,27 +14,27 @@ from typing import Annotated
 
 import pytest
 
-from ctypes_plus import Field, asdict, cstruct, cunion, fields
+from ctypes_plus import Field, asdict, fields, structure, union
 from ctypes_plus.types import CharP, Double, Int32, UInt64
 
 type MyInt = Annotated[int, c_int]
 type MyIntAlias = MyInt  # Alias of an alias
 
 
-@cstruct
+@structure
 class LogEvent:
     event_id: Int32
     timestamp: UInt64
     message: CharP
 
 
-@cunion
+@union
 class Number:
     as_int: Int32
     as_double: Double
 
 
-def test_cstruct_produces_structure_subclass() -> None:
+def test_structure_produces_structure_subclass() -> None:
     assert issubclass(LogEvent, Structure)
     assert LogEvent._fields_ == [
         ("event_id", c_int32),
@@ -53,7 +53,7 @@ def test_native_construction_needs_no_ignore() -> None:
     assert by_kwargs.message == b"hi"
 
 
-def test_cunion_overlaps_storage() -> None:
+def test_union_overlaps_storage() -> None:
     assert issubclass(Number, Union)
     assert sizeof(Number) == sizeof(c_double)
     n = Number(as_int=7)
@@ -89,7 +89,7 @@ def test_repr() -> None:
 
 
 def test_repr_not_overridden_when_user_defined() -> None:
-    @cstruct
+    @structure
     class Custom:
         x: Int32
 
@@ -101,7 +101,7 @@ def test_repr_not_overridden_when_user_defined() -> None:
 
 def test_plain_ctypes_annotations_still_supported() -> None:
     # Backward compat: raw ctypes types work (native values need an ignore).
-    @cstruct
+    @structure
     class Raw:
         a: c_int
 
@@ -110,7 +110,7 @@ def test_plain_ctypes_annotations_still_supported() -> None:
 
 
 def test_user_type_aliases_are_unwrapped() -> None:
-    @cstruct
+    @structure
     class S:
         a: MyInt
         b: MyIntAlias

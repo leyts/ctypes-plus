@@ -51,7 +51,10 @@ ignore = [
 ]
 
 [tool.ruff.lint.flake8-type-checking]
-runtime-evaluated-decorators = ["ctypes_plus.cstruct", "ctypes_plus.cunion"]
+runtime-evaluated-decorators = [
+  "ctypes_plus.structure",
+  "ctypes_plus.union",
+]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**" = [

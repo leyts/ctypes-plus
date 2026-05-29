@@ -7,12 +7,12 @@ from ctypes_plus._build import build
 
 
 @dataclass_transform()
-def cstruct[T](cls: type[T]) -> type[T]:
+def structure[T](cls: type[T]) -> type[T]:
     """Turn an annotated class into a ``ctypes.Structure`` subclass.
 
     Each annotation becomes a ``_fields_`` entry::
 
-        @cstruct
+        @structure
         class LogEvent:
             event_id: c_int
             message: c_char_p
@@ -21,6 +21,6 @@ def cstruct[T](cls: type[T]) -> type[T]:
 
 
 @dataclass_transform()
-def cunion[T](cls: type[T]) -> type[T]:
+def union[T](cls: type[T]) -> type[T]:
     """Turn an annotated class into a ``ctypes.Union`` subclass."""
     return cast("type[T]", build(cls, Union))
