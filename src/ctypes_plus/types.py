@@ -1,20 +1,4 @@
-"""Native-typed field aliases for use with :func:`ctypes_plus.cstruct`.
-
-Each alias is an ``Annotated[native, ctype]``: the native type drives the
-``@cstruct`` constructor signature (so passing native Python values type-checks
-cleanly), while the ctypes type in the metadata is what ``build`` places in
-``_fields_``::
-
-    from ctypes_plus import cstruct
-    from ctypes_plus.types import CharP, Int32, UInt64
-
-
-    @cstruct
-    class LogEvent:
-        event_id: Int32
-        timestamp: UInt64
-        message: CharP
-"""
+"""Native-typed field aliases."""
 
 from ctypes import (
     c_bool,
