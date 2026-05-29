@@ -9,7 +9,12 @@ license-files = ["LICENCE"]
 authors = [
   { name = "Leyton Addison-Roach", email = "git@laddisonroach.com" },
 ]
+keywords = ["ctypes"]
 dependencies = []
+
+[project.urls]
+Issues = "https://github.com/leyts/ctypes-plus/issues"
+Repository = "https://github.com/leyts/ctypes-plus"
 
 [dependency-groups]
 dev = [
