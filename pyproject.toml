@@ -1,0 +1,64 @@
+[project]
+name = "ctypes-plus"
+version = "0.1.0"
+description = "A dataclass-like interface for ctypes data types."
+readme = "README.md"
+requires-python = ">=3.14"
+license = "MIT"
+license-files = ["LICENCE"]
+authors = [
+  { name = "Leyton Addison-Roach", email = "git@laddisonroach.com" },
+]
+dependencies = []
+
+[dependency-groups]
+dev = [
+  "pyrefly>=1.0.0",
+  "pytest>=9.0.3",
+  "ruff>=0.15.15",
+]
+
+[build-system]
+requires = ["uv_build>=0.11.17,<0.12.0"]
+build-backend = "uv_build"
+
+[tool.pyrefly]
+project-includes = ["**/*.py"]
+
+[tool.ruff]
+line-length = 79
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+  "W191",
+  "E111",
+  "E114",
+  "E117",
+  "D206",
+  "D300",
+  "Q000",
+  "Q001",
+  "Q002",
+  "Q003",
+  "Q004",
+  "COM812",
+  "COM819",
+  "D10"  # pydocstyle undocumented rules
+]
+
+[tool.ruff.lint.flake8-type-checking]
+runtime-evaluated-decorators = ["ctypes_plus.cstruct", "ctypes_plus.cunion"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = [
+  "INP001",
+  "PLR2004",
+  "S101",
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
