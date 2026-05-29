@@ -1,6 +1,7 @@
 """Shared builder for the decorators."""
 
 from annotationlib import get_annotations
+from ctypes import Union
 from typing import (
     TYPE_CHECKING,
     Annotated,
@@ -11,7 +12,7 @@ from typing import (
 )
 
 if TYPE_CHECKING:
-    from ctypes import Structure, Union, _CData
+    from ctypes import Structure, _CData
 else:
     from ctypes import Structure
 
@@ -56,9 +57,28 @@ def _resolve_ctype(annotation: object) -> type[_CData]:
     return annotation
 
 
+def _field_items(
+    cls: type[Structure | Union],
+) -> tuple[tuple[str, type[_CData]], ...]:
+    """Return own and inherited ctypes fields in layout order.
+
+    Instances inherit base-class fields, but the ``_fields_`` attribute on
+    each class lists only the fields declared in that class's own body, so
+    walk the MRO base-first to recover the inherited ones.
+    """
+    items: list[tuple[str, type[_CData]]] = []
+    for base in reversed(cls.__mro__):
+        if not issubclass(base, (Structure, Union)):
+            continue
+        for name, ctype, *_ in base.__dict__.get("_fields_", ()):
+            items.append((name, ctype))
+    return tuple(items)
+
+
 def _repr(self: Structure | Union) -> str:
     args = ", ".join(
-        f"{name}={getattr(self, name)!r}" for name, *_ in type(self)._fields_
+        f"{name}={getattr(self, name)!r}"
+        for name, _ in _field_items(type(self))
     )
     return f"{type(self).__name__}({args})"
 

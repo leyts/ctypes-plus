@@ -136,3 +136,23 @@ def test_type_errors_on_plain_objects() -> None:
         asdict(42)
     with pytest.raises(TypeError):
         fields(42)
+
+
+def test_handwritten_ctypes_inherited_fields_are_reported() -> None:
+    class Point(Structure):
+        _fields_ = (
+            ("x", c_int),
+            ("y", c_int),
+        )
+
+    class Point3D(Point):
+        _fields_ = (("z", c_int),)
+
+    point = Point3D(1, 2, 3)
+
+    assert fields(Point3D) == (
+        Field("x", c_int),
+        Field("y", c_int),
+        Field("z", c_int),
+    )
+    assert asdict(point) == {"x": 1, "y": 2, "z": 3}
