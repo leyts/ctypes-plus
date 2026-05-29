@@ -1,12 +1,11 @@
 """Introspection and conversion helpers."""
 
 from ctypes import Structure, Union
-from typing import TYPE_CHECKING, NamedTuple, TypeIs
+from typing import NamedTuple, TypeIs
 
-if TYPE_CHECKING:
-    from ctypes import _CData
-else:
-    _CData = Structure.__bases__[0]
+# Imported at runtime so `Field`'s annotation stays resolvable for callers
+# of `get_type_hints(Field)`.
+from ctypes_plus._build import _CData  # noqa: TC001
 
 
 class Field(NamedTuple):
@@ -16,12 +15,12 @@ class Field(NamedTuple):
     type: type[_CData]
 
 
-def _is_ctypes_instance(obj: object) -> TypeIs[Structure | Union]:
+def _is_struct_or_union(obj: object) -> TypeIs[Structure | Union]:
     """Return ``True`` if ``obj`` is a ctypes Structure or Union instance."""
     return isinstance(obj, (Structure, Union))
 
 
-def _ctypes_class(obj: object) -> type[Structure | Union]:
+def _struct_or_union_class(obj: object) -> type[Structure | Union]:
     """Resolve a ctypes Structure/Union class or instance to its class.
 
     Raises ``TypeError`` if ``obj`` is neither.
@@ -39,7 +38,7 @@ def fields(obj: object) -> tuple[Field, ...]:
     Accepts either the class itself or an instance of it. Raises ``TypeError``
     if ``obj`` is not (an instance of) a ctypes Structure or Union.
     """
-    cls = _ctypes_class(obj)
+    cls = _struct_or_union_class(obj)
     return tuple(Field(name, ctype) for name, ctype, *_ in cls._fields_)
 
 
@@ -50,7 +49,7 @@ def asdict(obj: object) -> dict[str, object]:
     types to native Python objects). Raises ``TypeError`` if ``obj`` is not a
     ctypes Structure or Union instance.
     """
-    if not _is_ctypes_instance(obj):
+    if not _is_struct_or_union(obj):
         msg = (
             "asdict() should be called on a ctypes Structure or Union"
             f" instance, not {obj!r}"
