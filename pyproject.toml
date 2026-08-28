@@ -13,8 +13,8 @@ keywords = ["ctypes"]
 dependencies = []
 
 [project.urls]
-Issues = "https://github.com/leyts/ctypes-plus/issues"
-Repository = "https://github.com/leyts/ctypes-plus"
+Issues = "https://git.laddisonroach.com/leyts/ctypes-plus/issues"
+Repository = "https://git.laddisonroach.com/leyts/ctypes-plus"
 
 [dependency-groups]
 dev = [
